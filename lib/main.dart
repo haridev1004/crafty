@@ -14,7 +14,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Center(
-          child: Text("stay here, we'll update soon"),
+          child: Text("stay here, we'll update soon "),
         ),
       ),
     );
