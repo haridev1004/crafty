@@ -1,4 +1,4 @@
-package com.example.flutter_craft
+package com.hd.crafty
 
 import io.flutter.embedding.android.FlutterActivity
 
