@@ -8,6 +8,9 @@ workflows:
         - google_credentials
       android_signing:
         - HD
+      vars:
+        PACKAGE_NAME: "io.codemagic.fluttersample"
+        GOOGLE_PLAY_TRACK: alpha
   
     triggering:
       branch_patterns:
@@ -25,12 +28,21 @@ workflows:
         flutter packages pub get
     - name: Build AAB with Flutter
       script: | 
-        flutter build appbundle --release
+        BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME" --tracks="$GOOGLE_PLAY_TRACK") + 1))      
+        flutter build appbundle --release \
+          --build-name=1.0.$BUILD_NUMBER \
+          --build-number=$BUILD_NUMBER
+
+        
     artifacts:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/mapping.txt
       - flutter_drive.log
+    
 publishing:
+  email:
+    recipients:
+          - hariravi1004@gmail.com
   google_play: 
     # Contents of the JSON key file for Google Play service account saved 
     # as a secure environment variable
@@ -69,3 +81,4 @@ publishing:
       # Optional boolean. Promote the release as draft.
       # Can not be used together with rollout_fraction. Defaults to false
       promote_as_draft: true
+    
